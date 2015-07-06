@@ -1,0 +1,10 @@
+web:
+  build: .
+  volumes:
+    - ".:/go/src/app"
+  environment:
+    - "GIN_PORT=8000"
+    - "PORT=3000"
+  ports:
+    - "8000:8000"
+  command: gin -p "8000" -a "3000"
