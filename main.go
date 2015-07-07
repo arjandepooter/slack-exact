@@ -5,6 +5,9 @@ import (
 	"net/http"
 )
 
+// Current version
+const VERSION = "0.0.1"
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/slack", commandHandler).Methods("POST")
