@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/mattn/go-shellwords"
 )
 
@@ -32,4 +33,12 @@ func (command *SlackCommand) getSubCommand() string {
 		return parsedText[0]
 	}
 	return "help"
+}
+
+func helpCommand(*SlackCommand) string {
+	return "Use one of the following commands:\n\tversion\n\thelp"
+}
+
+func versionCommand(*SlackCommand) string {
+	return fmt.Sprintf("SlackExact version %s", VERSION)
 }
