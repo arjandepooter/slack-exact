@@ -1,8 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
-	"net/http"
 )
 
 // Current version
@@ -12,5 +13,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/slack", commandHandler).Methods("POST")
 
-	http.ListenAndServe(":3000", router)
+	n := negroni.Classic()
+	n.UseHandler(router)
+	n.Run(fmt.Sprintf(":%d", config.Port))
 }
