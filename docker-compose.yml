@@ -5,6 +5,9 @@ web:
   environment:
     - "GIN_PORT=8000"
     - "SLACK_EXACT_PORT=3000"
+    - "SLACK_EXACT_INCOMING_TOKEN"
+    - "SLACK_EXACT_WEBHOOK_URL"
+    - "SLACK_EXACT_BASE_URL"
   ports:
     - "8000:8000"
   command: gin -p "8000" -a "3000"
