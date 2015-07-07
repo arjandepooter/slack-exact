@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+var commands = map[string](func(*SlackCommand) string){
+	"help":    helpCommand,
+	"version": versionCommand,
+}
+
 func commandHandler(res http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	command := new(SlackCommand)
@@ -16,5 +21,21 @@ func commandHandler(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(400)
 		io.WriteString(res, "Invalid form data\n")
 		return
+	}
+
+	if command.Token != config.IncomingToken {
+		res.WriteHeader(403)
+		io.WriteString(res, "Invalid token\n")
+		return
+	}
+
+	commandFunc, exists := commands[command.getSubCommand()]
+	if !exists {
+		commandFunc = commands["help"]
+	}
+	err = postToSlack(command, commandFunc(command))
+	if err != nil {
+		res.WriteHeader(400)
+		io.WriteString(res, err.Error())
 	}
 }
