@@ -7,7 +7,7 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/slack", CommandHandler).Methods("POST")
+	router.HandleFunc("/slack", commandHandler).Methods("POST")
 
 	http.ListenAndServe(":3000", router)
 }

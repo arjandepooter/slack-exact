@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func CommandHandler(res http.ResponseWriter, req *http.Request) {
+func commandHandler(res http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	command := new(SlackCommand)
 	decoder := schema.NewDecoder()
