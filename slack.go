@@ -12,14 +12,15 @@ type slackRequest struct {
 	Channel  string `json:"channel"`
 }
 
-func postToSlack(command *SlackCommand, message string) error {
-	payload := &slackRequest{
-		Channel:  fmt.Sprintf("#%s", command.ChannelName),
-		Username: config.BotUsername,
-		Text:     fmt.Sprintf("%s %s\n%s", command.Command, command.Text, message),
-		IconURL:  fmt.Sprintf("%s/exact_online.png", config.BaseURL),
-	}
+func newSlackRequest() *slackRequest {
+	req := new(slackRequest)
+	req.IconURL = fmt.Sprintf("%s/exact_online.png", config.BaseURL)
+	req.Username = config.BotUsername
 
+	return req
+}
+
+func postToSlack(payload *slackRequest) error {
 	request := gorequest.New()
 	resp, body, errs := request.Post(config.WebhookURL).Send(*payload).End()
 	if len(errs) > 0 {

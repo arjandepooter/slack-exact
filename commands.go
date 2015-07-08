@@ -35,10 +35,17 @@ func (command *SlackCommand) getSubCommand() string {
 	return "help"
 }
 
-func helpCommand(*SlackCommand) string {
-	return "Use one of the following commands:\n\tversion\n\thelp"
+func helpCommand(cmd *SlackCommand, user *User) error {
+	req := newSlackRequest()
+	req.Channel = cmd.ChannelName
+	req.Text = "Use one of the following commands:\n\tversion\n\thelp"
+
+	return postToSlack(req)
 }
 
-func versionCommand(*SlackCommand) string {
-	return fmt.Sprintf("SlackExact version %s", VERSION)
+func versionCommand(cmd *SlackCommand, user *User) error {
+	req := newSlackRequest()
+	req.Text = fmt.Sprintf("SlackExact version %s", VERSION)
+
+	return postToSlack(req)
 }

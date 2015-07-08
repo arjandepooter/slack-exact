@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-var commands = map[string](func(*SlackCommand) string){
+var commands = map[string](func(*SlackCommand, *User) error){
 	"help":    helpCommand,
 	"version": versionCommand,
 }
@@ -29,11 +29,16 @@ func commandHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	user, created := userStore.GetOrAdd(command.UserID)
+	if created {
+		user.UserName = command.UserName
+	}
+
 	commandFunc, exists := commands[command.getSubCommand()]
 	if !exists {
 		commandFunc = commands["help"]
 	}
-	err = postToSlack(command, commandFunc(command))
+	err = commandFunc(command, user)
 	if err != nil {
 		res.WriteHeader(400)
 		io.WriteString(res, err.Error())

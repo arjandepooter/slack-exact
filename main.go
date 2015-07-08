@@ -6,7 +6,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var userStore *UserStore
+
 func main() {
+	userStore = new(UserStore)
+
 	router := mux.NewRouter()
 	router.HandleFunc("/slack", commandHandler).Methods("POST")
 
