@@ -17,7 +17,7 @@ func postToSlack(command *SlackCommand, message string) error {
 		Channel:  fmt.Sprintf("#%s", command.ChannelName),
 		Username: config.BotUsername,
 		Text:     fmt.Sprintf("%s %s\n%s", command.Command, command.Text, message),
-		IconURL:  fmt.Sprintf("%sexact_online.png", config.BaseURL),
+		IconURL:  fmt.Sprintf("%s/exact_online.png", config.BaseURL),
 	}
 
 	request := gorequest.New()

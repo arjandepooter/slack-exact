@@ -15,7 +15,7 @@ type configSpecification struct {
 	// Username for bot replies
 	BotUsername string `envconfig:"bot_username" default:"Exact Online"`
 	// Base URL of Slack Exact
-	BaseURL string `envconfig:"base_url" default:"http://slackexact.greymug.io/"`
+	BaseURL string `envconfig:"base_url" default:"http://slackexact.greymug.io"`
 	// Exact app key
 	AppKey string `envconfig:"app_key"`
 	// Exact client ID
